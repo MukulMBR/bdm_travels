@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import 'login.dart';
 import 'splash screen.dart';
 
 void main() {
@@ -29,23 +27,5 @@ class MyApp extends StatelessWidget {
            home: SplashScreen(),
           );
         });
-  }
-}
-
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.blue.shade300,
-      body: loginpageui(),
-    );
   }
 }

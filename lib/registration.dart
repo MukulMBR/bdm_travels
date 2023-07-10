@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
-import 'main.dart';
+import 'login.dart';
 import 'my_textfield.dart';
 
-class SignUpUi extends StatefulWidget {
-  const SignUpUi({super.key});
+class SignUp extends StatefulWidget {
+  const SignUp({Key? key});
 
   @override
-  State<SignUpUi> createState() => _SignUpUiState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _SignUpUiState extends State<SignUpUi> {
+class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-           image: DecorationImage(
-             image: AssetImage("res/bdm.jpg"),
-             fit: BoxFit.fill,
-           ),
+          image: DecorationImage(
+            image: AssetImage("res/bdm.jpg"),
+            fit: BoxFit.fill,
+          ),
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -45,7 +45,6 @@ class _SignUpUiState extends State<SignUpUi> {
                 Colors.grey.withOpacity(0.3),
               ],
             ),
-            //--code to remove border
             border: Border.fromBorderSide(BorderSide.none),
             shadowStrength: 5,
             shape: BoxShape.rectangle,
@@ -56,20 +55,34 @@ class _SignUpUiState extends State<SignUpUi> {
               child: Column(
                 children: [
                   customTextField(
-                    labelText: "Username",hintText: "Full Name", prefixIcon:Icons.person),
+                    labelText: "Username",
+                    hintText: "Full Name",
+                    prefixIcon: Icons.person,
+                  ),
                   SizedBox(
                     height: 20,
                   ),
-                  customTextField(labelText:"Email", hintText: "Email Adress", prefixIcon: Icons.email),
+                  customTextField(
+                    labelText: "Email",
+                    hintText: "Email Address",
+                    prefixIcon: Icons.email,
+                  ),
                   SizedBox(
                     height: 20,
                   ),
-                  customTextField(labelText:"Password", hintText: "Password",prefixIcon: Icons.key_outlined),
+                  customTextField(
+                    labelText: "Password",
+                    hintText: "Password",
+                    prefixIcon: Icons.lock,
+                  ),
                   SizedBox(
                     height: 20,
                   ),
-                  customTextField(labelText:"Confirm password",hintText:  "confirm password",
-                      prefixIcon: Icons.key_outlined),
+                  customTextField(
+                    labelText: "Confirm Password",
+                    hintText: "Confirm Password",
+                    prefixIcon: Icons.lock,
+                  ),
                   SizedBox(
                     height: 20,
                   ),
@@ -78,7 +91,6 @@ class _SignUpUiState extends State<SignUpUi> {
                     width: MediaQuery.of(context).size.width * 0.85,
                     child: ElevatedButton(
                       onPressed: () {
-                        //alert dialoge
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
@@ -91,7 +103,7 @@ class _SignUpUiState extends State<SignUpUi> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => MyHomePage(),
+                                        builder: (context) => LoginPage(),
                                       ),
                                     );
                                   },
@@ -100,7 +112,7 @@ class _SignUpUiState extends State<SignUpUi> {
                               ],
                             );
                           },
-                        );                        
+                        );
                       },
                       child: Text(
                         "Register Now",
@@ -118,19 +130,19 @@ class _SignUpUiState extends State<SignUpUi> {
                     ),
                   ),
                   SizedBox(
-                  height: 15,
-                ),
-                Container(
-                  child: Row(
-                    children: [
-                      Text(
-                        "  Already have an account?",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white.withOpacity(0.5),
+                    height: 15,
+                  ),
+                  Container(
+                    child: Row(
+                      children: [
+                        Text(
+                          "  Already have an account?",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white.withOpacity(0.5),
+                          ),
                         ),
-                      ),
-                      TextButton(
+                        TextButton(
                           child: Text(
                             "Login",
                             style: TextStyle(
@@ -139,10 +151,11 @@ class _SignUpUiState extends State<SignUpUi> {
                           ),
                           onPressed: () {
                             Navigator.pop(context);
-                          }),
-                    ],
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                ),
                 ],
               ),
             ),

@@ -3,21 +3,21 @@ import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'registration.dart';
 import 'my_textfield.dart';
 
-class loginpageui extends StatefulWidget {
-  const loginpageui({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key});
 
   @override
-  State<loginpageui> createState() => _loginpageuiState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _loginpageuiState extends State<loginpageui> {
+class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-        image: AssetImage("res/bdm.jpg"),
-        fit: BoxFit.fill,
+          image: AssetImage("res/bdm.jpg"),
+          fit: BoxFit.fill,
         ),
         gradient: LinearGradient(
           begin: Alignment.topCenter,
@@ -44,7 +44,6 @@ class _loginpageuiState extends State<loginpageui> {
               Colors.grey.withOpacity(0.3),
             ],
           ),
-          //--code to remove border
           border: Border.fromBorderSide(BorderSide.none),
           shadowStrength: 5,
           shape: BoxShape.rectangle,
@@ -55,12 +54,16 @@ class _loginpageuiState extends State<loginpageui> {
             child: Column(
               children: [
                 customTextField(
-                labelText: 'Email / username', hintText: 'Emial adress', prefixIcon: Icons.email),
+                    labelText: 'Email / Username',
+                    hintText: 'Email address',
+                    prefixIcon: Icons.email),
                 SizedBox(
                   height: 20,
                 ),
                 customTextField(
-                  labelText: "Password", hintText: "Password",prefixIcon: Icons.lock),
+                    labelText: "Password",
+                    hintText: "Password",
+                    prefixIcon: Icons.lock),
                 SizedBox(
                   height: 35,
                 ),
@@ -91,25 +94,28 @@ class _loginpageuiState extends State<loginpageui> {
                   child: Row(
                     children: [
                       Text(
-                        "Doesn't have an account?",
+                        "Don't have an account?",
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.white.withOpacity(0.5),
                         ),
                       ),
                       TextButton(
-                          child: Text(
-                            "Register now",
-                            style: TextStyle(
-                                color: Colors.white.withOpacity(0.5),
-                                fontSize: 14),
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SignUpUi()));
-                          }),
+                        child: Text(
+                          "Register now",
+                          style: TextStyle(
+                              color: Colors.white.withOpacity(0.5),
+                              fontSize: 14),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SignUp(),
+                            ),
+                          );
+                        },
+                      ),
                     ],
                   ),
                 ),
