@@ -5,9 +5,11 @@ Widget customTextField({
   required String hintText,
   required IconData prefixIcon,
   bool obscureText = false,
+  TextEditingController? controller,
 }) {
   return Material(
     child: TextField(
+      controller: controller,
       obscureText: obscureText,
       style: TextStyle(color: Colors.black87.withOpacity(0.7)),
       decoration: InputDecoration(

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
+import 'home.dart';
 import 'login.dart';
 import 'my_textfield.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key});
@@ -11,6 +14,42 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  TextEditingController user = TextEditingController();
+  TextEditingController pass = TextEditingController();
+  TextEditingController cpass = TextEditingController();
+
+  Future register() async {
+    var url = Uri.parse("http://192.168.107.177/bdm_travels/php/register.php");
+    var response = await http.post(url, body: {
+      "username": user.text,
+      "password": pass.text,
+    });
+    var data = json.decode(response.body);
+    if (data == "Error") {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('User already exists!'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => LoginPage()),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Registration Successful'),
+          backgroundColor: Colors.green,
+        ),
+      );
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +91,7 @@ class _SignUpState extends State<SignUp> {
             shadowColor: Colors.white.withOpacity(0.24),
             child: Padding(
               padding: EdgeInsets.all(20),
-              child: Column(
+              child: ListView(
                 children: [
                   customTextField(
                     labelText: "Username",
@@ -66,6 +105,7 @@ class _SignUpState extends State<SignUp> {
                     labelText: "Email",
                     hintText: "Email Address",
                     prefixIcon: Icons.email,
+                    controller: user,
                   ),
                   SizedBox(
                     height: 20,
@@ -74,6 +114,7 @@ class _SignUpState extends State<SignUp> {
                     labelText: "Password",
                     hintText: "Password",
                     prefixIcon: Icons.lock,
+                    controller: pass,
                   ),
                   SizedBox(
                     height: 20,
@@ -82,6 +123,7 @@ class _SignUpState extends State<SignUp> {
                     labelText: "Confirm Password",
                     hintText: "Confirm Password",
                     prefixIcon: Icons.lock,
+                    controller: cpass,
                   ),
                   SizedBox(
                     height: 20,
@@ -91,28 +133,7 @@ class _SignUpState extends State<SignUp> {
                     width: MediaQuery.of(context).size.width * 0.85,
                     child: ElevatedButton(
                       onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text("Sign Up Successful"),
-                              content: Text(""),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => LoginPage(),
-                                      ),
-                                    );
-                                  },
-                                  child: Text("OK"),
-                                ),
-                              ],
-                            );
-                          },
-                        );
+                        register();
                       },
                       child: Text(
                         "Register Now",
