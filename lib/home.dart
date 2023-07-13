@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'buses.dart';
 import 'login.dart';
 import 'settings.dart';
 
@@ -7,7 +8,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Dashboard'),
+        title: Text('BDM Travels'),
         actions: [
           IconButton(
             icon: Icon(Icons.settings),
@@ -44,6 +45,16 @@ class HomePage extends StatelessWidget {
               },
             ),
             ListTile(
+              leading: Icon(Icons.bus_alert_rounded),
+              title: Text('Busses'),
+              onTap: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => Bus()),
+                );
+              },
+            ),
+            ListTile(
               leading: Icon(Icons.settings),
               title: Text('Settings'),
               onTap: () {
@@ -71,14 +82,17 @@ class HomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Image.asset(
-                'res/bus.gif',
+                'res/bdm.jpg',
                 width: 200,
                 height: 200,
               ),
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  
+                  Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => Bus()),
+                );                  
                 },
                 child: Text('View Busses'),
               ),

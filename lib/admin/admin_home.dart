@@ -1,7 +1,10 @@
+import 'package:bdm_travels/admin/addbus.dart';
+import 'package:bdm_travels/admin/buses.dart';
+import 'package:bdm_travels/admin/deletebus.dart';
+import 'package:bdm_travels/admin/updatebus.dart';
 import 'package:flutter/material.dart';
 import '../login.dart';
 import '../settings.dart';
-import 'admin.dart';
 
 class AdminHome extends StatelessWidget {
   @override
@@ -38,10 +41,20 @@ class AdminHome extends StatelessWidget {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.edit),
+              leading: Icon(Icons.home_repair_service),
               title: Text('Home'),
               onTap: () {
                 Navigator.pop(context);
+              },
+            ), 
+            ListTile(
+              leading: Icon(Icons.update),
+              title: Text('Update Bus'),
+              onTap: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => UpdateBus()),
+                );
               },
             ),            
             ListTile(
@@ -50,7 +63,17 @@ class AdminHome extends StatelessWidget {
               onTap: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => AdminPage()),
+                  MaterialPageRoute(builder: (context) => AddBus()),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.delete),
+              title: Text('Delete Buses'),
+              onTap: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => DeleteBusPage()),
                 );
               },
             ),
@@ -89,7 +112,10 @@ class AdminHome extends StatelessWidget {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  
+                  Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => Bus()),
+                );                  
                 },
                 child: Text('View Busses'),
               ),
