@@ -12,15 +12,23 @@ class Bus extends StatefulWidget {
 
 class _BusState extends State<Bus> {
   List<Map<String, dynamic>> busDetails = [];
+  late final TextEditingController userInputController;
 
   @override
   void initState() {
     super.initState();
-    fetchBusDetails();
+    userInputController = TextEditingController();
+    fetchBusDetails('');
   }
 
-  Future<void> fetchBusDetails() async {
-    var url = Uri.parse("http://192.168.107.177/bdm_travels/php/bus.php");
+  @override
+  void dispose() {
+    userInputController.dispose();
+    super.dispose();
+  }
+
+  Future<void> fetchBusDetails(String userInput) async {
+    var url = Uri.parse("http://192.168.107.177/bdm_travels/php/bus.php?userInput=$userInput");
     var response = await http.get(url);
 
     var data = json.decode(response.body);
@@ -34,25 +42,45 @@ class _BusState extends State<Bus> {
     return WillPopScope(
       onWillPop: () async {
         Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomePage()),
-                );
-         // Navigate back to the homepage
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
         return true;
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Admin Page'),
+          title: Text('Buses'),
         ),
-        body: ListView.builder(
-          itemCount: busDetails.length,
-          itemBuilder: (context, index) {
-            var bus = busDetails[index];
-            return ListTile(
-              title: Text(bus['busName']),
-              subtitle: Text('Number: ${bus['busNumber']}, Capacity: ${bus['busCapacity']},Details: ${bus['busDetails']}'),
-            );
-          },
+        body: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(16.0),
+              child: TextField(
+                controller: userInputController,
+                decoration: InputDecoration(
+                  labelText: 'Enter bus number or name',
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      fetchBusDetails(userInputController.text);
+                    },
+                    icon: Icon(Icons.search),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: busDetails.length,
+                itemBuilder: (context, index) {
+                  var bus = busDetails[index];
+                  return ListTile(
+                    title: Text(bus['busName']),
+                    subtitle: Text('Number: ${bus['busNumber']}, Capacity: ${bus['busCapacity']}, Details: ${bus['busDetails']}'),
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
