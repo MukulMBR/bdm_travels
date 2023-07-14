@@ -1,3 +1,4 @@
+import 'package:bdm_travels/User/bus_details.dart';
 import 'package:bdm_travels/home.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -35,6 +36,13 @@ class _BusState extends State<Bus> {
     setState(() {
       busDetails = List<Map<String, dynamic>>.from(data);
     });
+  }
+
+  void navigateToBusDetailsPage(Map<String, dynamic> bus) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => BusDetailsPage(busDetails: bus)),
+    );
   }
 
   @override
@@ -76,6 +84,9 @@ class _BusState extends State<Bus> {
                   return ListTile(
                     title: Text(bus['busName']),
                     subtitle: Text('Number: ${bus['busNumber']}, Capacity: ${bus['busCapacity']}, Details: ${bus['busDetails']}'),
+                    onTap: () {
+                      navigateToBusDetailsPage(bus);
+                    },
                   );
                 },
               ),

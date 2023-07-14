@@ -1,18 +1,33 @@
-<?php 
-	$db = mysqli_connect('localhost','root','','bdm');
+<?php
+  $db = mysqli_connect('localhost', 'root', '', 'bdm');
 
-	$username = $_POST['username'];
-	$password = $_POST['password'];
+  $username = $_POST['username'];
+  $password = $_POST['password'];
 
-	$sql = "SELECT * FROM login WHERE username = '".$username."' AND password = '".$password."'";
+  // Prepare the SQL statement using a parameterized query
+  $stmt = mysqli_prepare($db, "SELECT * FROM login WHERE username = ?");
 
-	$result = mysqli_query($db,$sql);
-	$count = mysqli_num_rows($result);
+  // Bind the parameter to the statement
+  mysqli_stmt_bind_param($stmt, "s", $username);
 
-	if ($count == 1) {
-		echo json_encode("Success");
-	}else{
-		echo json_encode("Error");
-	}
+  // Execute the prepared statement
+  mysqli_stmt_execute($stmt);
 
+  // Get the result of the executed statement
+  $result = mysqli_stmt_get_result($stmt);
+
+  // Check if any rows are returned
+  if ($row = mysqli_fetch_assoc($result)) {
+    // Verify the hashed password
+    if (password_verify($password, $row['password'])) {
+      echo json_encode("Success");
+    } else {
+      echo json_encode("Error");
+    }
+  } else {
+    echo json_encode("Error");
+  }
+
+  // Close the database connection
+  mysqli_close($db);
 ?>

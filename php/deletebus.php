@@ -17,4 +17,6 @@ if ($deleteResult) {
 } else {
   echo json_encode("Error");
 }
+// Close the database connection
+mysqli_close($db);
 ?>

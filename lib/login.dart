@@ -17,44 +17,70 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController user = TextEditingController();
   TextEditingController pass = TextEditingController();
+  bool isLoading = false;
 
-  void ValidateCredentials(){
-    if(user.text== 'Mukul' && pass.text=='Mukulmbr67!'){
+  void validateCredentials() async {
+    if (user.text == 'Mukul' && pass.text == 'Mukulmbr67!') {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => AdminHome()),
       );
-    }
-    else{
-      login();
+    } else {
+      setState(() {
+        isLoading = true;
+      });
+      await login();
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
-  Future login() async {
-    var url = Uri.parse("http://192.168.107.177/bdm_travels/php/login.php");
-    var response = await http.post(url, body: {
-      "username": user.text,
-      "password": pass.text,
-    });
-    var data = json.decode(response.body);
-    if (data == "Success") {
+  Future<void> login() async {
+    try {
+      var url = Uri.parse("http://192.168.107.177/bdm_travels/php/login.php");
+      var response = await http.post(url, body: {
+        "username": user.text,
+        "password": pass.text,
+      });
+
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        if (data == "Success") {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Login Successful'),
+              backgroundColor: Colors.green,
+            ),
+          );
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => HomePage()),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Username and password invalid'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to connect to the server'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Login Successful'),
-          backgroundColor: Colors.green,
-        ),
-      );
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => HomePage()),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Username and password invalid'),
+          content: Text('An error occurred'),
           backgroundColor: Colors.red,
         ),
       );
+      print('Error: $e');
     }
   }
 
@@ -99,7 +125,7 @@ class _LoginPageState extends State<LoginPage> {
             shadowColor: Colors.white.withOpacity(0.24),
             child: Padding(
               padding: EdgeInsets.all(20),
-              child: ListView( // Wrap Column with ListView
+              child: ListView(
                 children: <Widget>[
                   customTextField(
                     labelText: 'Email / Username',
@@ -107,35 +133,33 @@ class _LoginPageState extends State<LoginPage> {
                     controller: user,
                     prefixIcon: Icons.email,
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
+                  SizedBox(height: 20),
                   customTextField(
                     labelText: "Password",
                     hintText: "Password",
                     controller: pass,
                     prefixIcon: Icons.lock,
                   ),
-                  SizedBox(
-                    height: 35,
-                  ),
+                  SizedBox(height: 35),
                   Container(
                     height: 45,
                     width: MediaQuery.of(context).size.width * 0.7,
-                    child: MaterialButton(
-                      color: Colors.pink,
-                      child: Text(
-                        'Login',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                      onPressed: () {
-                        ValidateCredentials();
-                      },
-                    ),
+                    child: isLoading
+                        ? CircularProgressIndicator()
+                        : MaterialButton(
+                            color: Colors.pink,
+                            child: Text(
+                              'Login',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            onPressed: () {
+                              validateCredentials();
+                            },
+                          ),
                   ),
                   Container(
                     child: Row(

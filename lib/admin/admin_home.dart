@@ -46,17 +46,7 @@ class AdminHome extends StatelessWidget {
               onTap: () {
                 Navigator.pop(context);
               },
-            ), 
-            ListTile(
-              leading: Icon(Icons.update),
-              title: Text('Update Bus'),
-              onTap: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => UpdateBus()),
-                );
-              },
-            ),            
+            ),      
             ListTile(
               leading: Icon(Icons.bus_alert_sharp),
               title: Text('Add Buses'),
@@ -64,6 +54,16 @@ class AdminHome extends StatelessWidget {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => AddBus()),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.update),
+              title: Text('Update Bus'),
+              onTap: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => UpdateBus()),
                 );
               },
             ),
